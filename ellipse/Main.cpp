@@ -1,11 +1,11 @@
-#include "Grafics.h"
+
 #include "Ellipse.h"
 
 
 
 int main() {
     
-    sf::RenderWindow window(sf::VideoMode(900, 900), "Art!"/*,sf::Style::Fullscreen*/);
+    sf::RenderWindow window(sf::VideoMode(900, 900), "Ellipse Rays!",sf::Style::Fullscreen);// Start in Fullsceen
     
     Ellipse el;
     std::vector<sf::Vertex> Map;
@@ -20,7 +20,7 @@ int main() {
     }
    
    
-    window.setFramerateLimit(30);
+    window.setFramerateLimit(100);
 
 
      float counter = -a ;
@@ -38,7 +38,7 @@ int main() {
             angleGive++;
         }
 
-        //Roatating Vector
+        //Roatating start-vector
         double angle = ((int)angleGive % 10) * (PI / 10);
         double x =  cos(angle) + (sin(angle) * -1);
         double y  = cos(angle) + sin(angle);

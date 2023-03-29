@@ -63,6 +63,7 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 	{
 		
 		//Calculate parameters
+
 		double m = (NormDir.y / NormDir.x) ;
 		
 		//Calculate y-Offset
@@ -71,20 +72,19 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 		double c = yOffset;
 
 
-		//Calc next possible x Cords
+		//Calc next possible x Cors
 		double A = ((b * b) + ((a * a) * (m * m)));
 		double B = (2 * (a * a) * m * c);
 		double C = (((a * a) * (c * c)) - ((a * a) * (b * b)));
 		double Dis = ((B * B) - (4 * A * C));
 		double root = sqrt(Dis);
 
-		//std::cout <<std::endl <<"Dis:" << Dis << std::endl;
-
-		double X = 0;
-		double Y = 0;
-
 		double X1 = (-1 * B + root) / (2 * A);
 		double X2 = (-1 * B - root) / (2 * A);
+		
+		//Calcualate collision
+		double X = 0;
+		double Y = 0;
 		if (Direktion.x > 0)
 		{
 			if (X1 > X2)
@@ -97,8 +97,6 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 				Y = GetY(X2, Start, NormDir);
 				X = X2;
 			}
-			
-
 
 		}
 		else
@@ -119,7 +117,7 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 
 
 		
-		//Tangente
+		//calculate tangent
 		const float move = 40;
 		double TangentX = X + move;
 		double TangentY = -1 * (((X / (a * a)) * TangentX) - 1) * ((b * b) / Y);
@@ -129,12 +127,6 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 		Vec2 J{ 1,0 };
 		Vec2 Normal{ ((Tangent.x * I.x) + (Tangent.y * J.x)),((Tangent.x * I.y) + (Tangent.y * J.y)) };
 
-		//Debungging
-	
-		/*Raypoints.push_back({ X,Y });
-		Raypoints.push_back({(float)X + Tangent.x, (float)Y + Tangent.y});
-		Raypoints.push_back({ (float)X,(float)Y });
-		Raypoints.push_back({ (float)X + Normal.x/2, (float)Y + Normal.y/2 });*/
 		
 
 		//Rotation over matrices 
@@ -148,12 +140,15 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 
 		//Roatation calculation over quatrenions
 		Vec2 normNormal = nomalise(Normal);
+
 		Quarternion rotationQ{cos(PI/2),sin(PI/2) * normNormal.x ,sin(PI / 2) * normNormal.y ,0};
 		Quarternion rotationInverseQ{ cos((PI / 2) * -1),sin((PI / 2) *  -1) * normNormal.x ,sin((PI / 2) * -1) * normNormal.y ,0 };
 		Quarternion direktionQ{0,NormDir.x * -1,NormDir.y * -1,0};
 		Quarternion newRotation = rotationQ * direktionQ * rotationInverseQ;
+
 		Direktion = {newRotation.i , newRotation.j};
 		Start = { X,Y };
+
 		return;
 	}
 }

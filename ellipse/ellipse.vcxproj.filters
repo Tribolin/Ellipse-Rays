@@ -21,15 +21,9 @@
     <ClCompile Include="Ellipse.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Grafics.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ellipse.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Grafics.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Vec2.h">
