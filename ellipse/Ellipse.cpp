@@ -129,6 +129,7 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 		Vec2 J{ 1,0 };
 		Vec2 Normal{ ((Tangent.x * I.x) + (Tangent.y * J.x)),((Tangent.x * I.y) + (Tangent.y * J.y)) };
 
+		//Debungging
 	
 		/*Raypoints.push_back({ X,Y });
 		Raypoints.push_back({(float)X + Tangent.x, (float)Y + Tangent.y});
@@ -136,18 +137,28 @@ void Ellipse::shootRay(Vec2& Start, Vec2& Direktion, std::vector<Vec2>& Raypoint
 		Raypoints.push_back({ (float)X + Normal.x/2, (float)Y + Normal.y/2 });*/
 		
 
-		double det = Normal.y * Tangent.x - (Normal.x * Tangent.y);
-		
-		
+		//Rotation over matrices 
+
+		/*double det = Normal.y * Tangent.x - (Normal.x * Tangent.y);
+
 		double t = ((Tangent.y * NormDir.x )+ (-1* Tangent.x * NormDir.y))/det;
 		double s = (( - 1 * Normal.y * NormDir.x) + (Normal.x * NormDir.y)) / det;
 
-		Direktion = {( - 1 * s * Tangent.x) + (t * Normal.x),(-1 * s * Tangent.y) + (t * Normal.y) };
+		Direktion = {( - 1 * s * Tangent.x) + (t * Normal.x),(-1 * s * Tangent.y) + (t * Normal.y) };*/
+
+		//Roatation calculation over quatrenions
+		Vec2 normNormal = nomalise(Normal);
+		Quarternion rotationQ{cos(PI/2),sin(PI/2) * normNormal.x ,sin(PI / 2) * normNormal.y ,0};
+		Quarternion rotationInverseQ{ cos((PI / 2) * -1),sin((PI / 2) *  -1) * normNormal.x ,sin((PI / 2) * -1) * normNormal.y ,0 };
+		Quarternion direktionQ{0,NormDir.x * -1,NormDir.y * -1,0};
+		Quarternion newRotation = rotationQ * direktionQ * rotationInverseQ;
+		Direktion = {newRotation.i , newRotation.j};
 		Start = { X,Y };
 		return;
 	}
 }
 
+//normalise a Vector
 Vec2 Ellipse::nomalise(Vec2 ToNorm)
 {
 	float length = sqrt(((ToNorm.x * ToNorm.x) +(ToNorm.y * ToNorm.y)));
@@ -155,19 +166,16 @@ Vec2 Ellipse::nomalise(Vec2 ToNorm)
 	ToNorm.y /= length;
 	return ToNorm;
 }
+
+//calculate the Y Cordinate of an line 
 double Ellipse::GetY(double X,Vec2 Start,Vec2 Dir)
 {
 	double t = (X - Start.x) / Dir.x;
 	return ((Dir.y * t) +Start.y);
 }
+
+//calculates the Dot product of two Vectors
 double Ellipse::Dot(Vec2 Vector1, Vec2 Vector2)
 {
 	return Vector1.x * Vector2.x + Vector1.y * Vector2.y;
-}
-double Ellipse::GetVecAngle(Vec2 Vector1, Vec2 Vector2)
-{
-	double length1 = sqrt((Vector1.x * Vector1.x) + (Vector1.y * Vector1.y));
-	double length2 = sqrt((Vector2.x * Vector2.x) + (Vector2.y * Vector2.y));
-	
-	return acos((Dot(Vector1,Vector2)/(length1 * length2)));
 }

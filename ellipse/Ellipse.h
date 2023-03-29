@@ -22,7 +22,6 @@ private:
 	Vec2 nomalise(Vec2 ToNorm);
 	double Dot(Vec2 Vector1, Vec2 Vector2);
 	double GetY(double X, Vec2 Start, Vec2 Dir);
-	double GetVecAngle(Vec2 Vector1, Vec2 Vector2);
 	void shootRay(Vec2& Start, Vec2& Direktion,std::vector<Vec2>& raypoints);
 };
 
