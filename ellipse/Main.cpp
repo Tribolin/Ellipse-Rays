@@ -7,13 +7,13 @@ int main() {
     
     sf::RenderWindow window(sf::VideoMode(900, 900), "Ellipse Rays!",sf::Style::Fullscreen);// Start in Fullsceen
     
-    Ellipse el;
+    Ellipse ellipse;
     std::vector<sf::Vertex> Map;
 
     int a = window.getSize().x / 3;
     float b = a * 0.75f;
     
-    for (auto& i : el.generateLine(a,b,0.1))
+    for (auto& i : ellipse.generateLine(a,b,0.1))
     {
         sf::Vector2f position = sf::Vector2f(i.x, i.y ) + sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
         Map.push_back(sf::Vertex(position, sf::Color::White, sf::Vector2f(250, 250)));
@@ -25,6 +25,9 @@ int main() {
 
      float counter = -a ;
      float angleGive = 0;
+     
+    
+    
     while (window.isOpen())
     {
         if (counter < a)
@@ -44,7 +47,7 @@ int main() {
         double y  = cos(angle) + sin(angle);
         
 
-        std::vector<Vec2> Rays = el.Raycast({ counter,0 },{x,y});
+        std::vector<Vec2> Rays = ellipse.Raycast({ counter,0 },{x,y});
         std::vector<sf::Vertex> RayMap;
         for (auto& i : Rays)
         {
@@ -57,6 +60,12 @@ int main() {
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+            
+                return 0;
+  
+            }
         }
        
         window.clear();
