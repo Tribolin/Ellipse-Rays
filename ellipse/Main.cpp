@@ -1,12 +1,11 @@
-#include "SFML/Graphics.hpp" 
-
+#include "Grafics.h"
 #include "Ellipse.h"
 
 
 
 int main() {
     
-    sf::RenderWindow window(sf::VideoMode(900, 900), "Art!",sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(900, 900), "Art!"/*,sf::Style::Fullscreen*/);
     
     Ellipse el;
     std::vector<sf::Vertex> Map;

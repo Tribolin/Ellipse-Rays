@@ -3,13 +3,9 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
-
+#include "Vec2.h"
 #define PI 3.14159265
 
-struct Vec2 {
-	double x;
-	double y;
-};
 
 class Ellipse
 {
